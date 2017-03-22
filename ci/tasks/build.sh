@@ -54,6 +54,8 @@ if [ -z "$packaging" ]; then
 fi
 
 version=`cat $versionFile`
+echo $version
+
 artifactName="${artifactId}-${version}.${packaging}"
 
 cd $inputDir
@@ -61,4 +63,10 @@ cd $inputDir
 
 # Copy war file to concourse output folder
 cd ..
+
+cd $inputDir/target/
+ls -lrt
+
+cd ../../
+
 cp $inputDir/target/$artifactName $outputDir/$artifactName
