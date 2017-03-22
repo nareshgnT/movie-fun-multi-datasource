@@ -16,7 +16,7 @@ resources:
       file: version
       username: {{github-username}}
       access_token: {{github-token}}
-
+      git_user: {{git-user}}
 jobs:
   - name: unit-test
     public: true
