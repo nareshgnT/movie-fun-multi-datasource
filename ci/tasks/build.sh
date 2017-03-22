@@ -57,9 +57,13 @@ version=`cat $versionFile`
 echo $version
 
 artifactName="${artifactId}-${version}.${packaging}"
+generatedArtifact="${artifactId}.${packaging}"
+
+echo $artifactName
+echo $generatedArtifact
 
 cd $inputDir
-./mvnw clean package -Pci -DversionNumber=$version
+./mvnw clean package
 
 # Copy war file to concourse output folder
 cd ..
@@ -69,4 +73,9 @@ ls -lrt
 
 cd ../../
 
-cp $inputDir/target/$artifactName $outputDir/$artifactName
+pwd
+
+echo $artifactName
+echo $generatedArtifact
+
+cp $inputDir/target/$generatedArtifact $outputDir/$artifactName
