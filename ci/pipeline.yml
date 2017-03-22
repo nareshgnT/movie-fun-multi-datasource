@@ -1,0 +1,46 @@
+---
+resources:
+  - name: moviefun
+    type: git
+    source:
+      uri: {{github-uri}}
+      branch: {{github-branch}}
+
+  - name: version
+    type: semver
+    source:
+      driver: git
+      initial_version: 0.0.1
+      uri: {{github-uri}}
+      branch: version
+      file: version
+      access_token: {{github-token}}
+
+jobs:
+  - name: unit-test
+    public: true
+    plan:
+      - get: moviefun
+        trigger: true
+      - task: unit
+        file: moviefun/ci/tasks/unit.yml
+        params: &MAVENPARAMS
+          MAVEN_OPTS: {{maven-opts}}
+          MAVEN_CONFIG: {{maven-config}}
+
+  - name: build-artifact
+    serial_groups: [ version ]
+    plan:
+      - get: moviefun
+        passed: [ unit-test ]
+        trigger: true
+      - get: version
+        params: { pre: rc }
+      - task: build
+        file: moviefun/ci/tasks/build.yml
+        params:
+          <<: *MAVENPARAMS
+      - put: version
+        params: { file: version/number }
+
+ 
