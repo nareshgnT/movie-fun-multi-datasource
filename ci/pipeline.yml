@@ -11,7 +11,7 @@ resources:
     source:
       driver: git
       initial_version: 0.0.1
-      uri: {{github-uri}}
+      uri: {{git-version-uri}}
       branch: version
       file: version
       username: {{github-username}}
