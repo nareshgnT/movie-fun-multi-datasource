@@ -54,11 +54,12 @@ if [ -z "$packaging" ]; then
 fi
 
 version=`cat $versionFile`
-artifactName="${artifactId}-${version}.${packaging}"
 
+artifactName="${artifactId}-${version}.${packaging}"
+artifactIdLoc="${artifactId}"
 cd $inputDir
 ./mvnw clean package -Pci -DversionNumber=$version
 
 # Copy war file to concourse output folder
 cd ..
-cp $inputDir/target/$artifactName $outputDir/$artifactName
+cp $inputDir/target/$artifactIdLoc $outputDir/$artifactName
